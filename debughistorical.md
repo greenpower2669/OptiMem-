@@ -15,3 +15,7 @@ L'état du code source / la création de branche ne valent pas succès de compil
 - Run #39243768981, job 118030594881 : FAILURE avant compilation ; setup-android appelle sdkmanager tools, réponse « Failed to find package 'tools' », exit 1.
 - Correction isolée : suppression de setup-android@v3, utilisation du sdkmanager préinstallé par ubuntu-latest pour installer platforms;android-36 et build-tools;36.0.0.
 - Statut : correctif enregistré, recompilation à vérifier ; aucun défaut Java établi par ce run.
+
+## 2026-10-19 — BUILD-003 : sdkmanager hors du PATH
+- Run #39243945614 job 118031180480 : étape « Installer Android SDK 36 » fail 127 : sdkmanager: command not found. La suppression de setup-android a évité BUILD-002 mais n'a pas exporté sdkmanager dans PATH.
+- Correction : invoquer l'exécutable du SDK préinstallé via $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager, avec recherche locale dans cmdline-tools si nécessaire. Rebuild à vérifier.

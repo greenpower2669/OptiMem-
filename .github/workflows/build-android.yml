@@ -25,7 +25,10 @@ jobs:
           gradle-version: '8.13'
       - name: Installer Android SDK 36 avec le sdkmanager préinstallé
         run: |
-          sdkmanager --install 'platforms;android-36' 'build-tools;36.0.0'
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -n 1)"; fi
+          test -x "$SDKMANAGER"
+          "$SDKMANAGER" --install 'platforms;android-36' 'build-tools;36.0.0'
       - name: Compiler un vrai APK debug
         run: gradle --no-daemon --stacktrace :app:assembleDebug
       - name: Produire APK direct et empreinte

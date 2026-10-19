@@ -8,7 +8,7 @@
 
 ## En cours
 - [ ] Code Java natif et cinq mémoires dans un commit cohérent de la branche.
-- [ ] Build GitHub Actions : premier run #39243768981 échoué avant compilation sur setup-android@v3 (paquet SDK tools absent). Correctif workflow en cours, attendre et contrôler le nouveau run.
+- [ ] Build GitHub Actions : runs #39243768981 et #39243945614 échoués avant compilation (setup-android obsolète puis sdkmanager hors PATH). Chemin absolu sdkmanager corrigé, contrôler le prochain run.
 - [ ] Vérifier temp/OptiMem-v0.1.0-debug.apk brut et SHA-256 via dépôt, donner URL directe.
 - [ ] Si CI échoue, rapporter erreurs dans debughistorical.md et corriger sans toucher main.
 
