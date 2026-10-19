@@ -10,3 +10,8 @@ La demande mentionne greenpower2669/OptiMem. Le dépôt existant et accessible a
 
 ## 2026-10-19 — BUILD-001 : preuves attendues
 L'état du code source / la création de branche ne valent pas succès de compilation. Avant d'affirmer la livraison, relever run GitHub Actions, conclusion, commit et SHA-256 effectivement présents, ainsi que le lien .apk existant. Erreurs CI à consigner sans inventer de succès.
+
+## 2026-10-19 — BUILD-002 : action setup-android@v3 incompatible avec SDK du runner
+- Run #39243768981, job 118030594881 : FAILURE avant compilation ; setup-android appelle sdkmanager tools, réponse « Failed to find package 'tools' », exit 1.
+- Correction isolée : suppression de setup-android@v3, utilisation du sdkmanager préinstallé par ubuntu-latest pour installer platforms;android-36 et build-tools;36.0.0.
+- Statut : correctif enregistré, recompilation à vérifier ; aucun défaut Java établi par ce run.

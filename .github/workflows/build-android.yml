@@ -20,12 +20,12 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
-      - name: Installer Android SDK 36
-        run: sdkmanager --install 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Installer Android SDK 36 avec le sdkmanager préinstallé
+        run: |
+          sdkmanager --install 'platforms;android-36' 'build-tools;36.0.0'
       - name: Compiler un vrai APK debug
         run: gradle --no-daemon --stacktrace :app:assembleDebug
       - name: Produire APK direct et empreinte
