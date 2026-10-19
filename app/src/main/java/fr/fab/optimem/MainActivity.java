@@ -56,6 +56,8 @@ public final class MainActivity extends Activity {
     private MemoryChart chart;
     private ActivityManager activityManager;
     private LocalJournal journal;
+    private SpeechGuide speech;
+    private Button autoVoiceButton;
     private android.content.SharedPreferences prefs;
     private boolean preparedThisSession = false;
     private final Runnable poll = new Runnable() {
@@ -69,9 +71,12 @@ public final class MainActivity extends Activity {
         super.onCreate(state);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         journal = new LocalJournal(this);
+        speech = new SpeechGuide(this);
         prefs = getSharedPreferences("optimem", MODE_PRIVATE);
         drawLayout();
-        journal.append("APP_START version=0.1.0 sdk=" + android.os.Build.VERSION.SDK_INT +
+        speech.onPageOpened("Bonjour, bienvenue sur OptiMem. " + spokenMemorySummary()
+                + " Tu peux réécouter à tout moment grâce au grand bouton Lire mon bilan mémoire.");
+        journal.append("APP_START version=0.3.0 sdk=" + android.os.Build.VERSION.SDK_INT +
                 " appareil=" + android.os.Build.MANUFACTURER + "/" + android.os.Build.MODEL);
     }
     @Override protected void onResume() {
@@ -81,7 +86,12 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onPause() {
         handler.removeCallbacks(poll);
+        speech.stop();
         super.onPause();
+    }
+    @Override protected void onDestroy() {
+        speech.shutdown();
+        super.onDestroy();
     }
     private int dp(float value) {
         return Math.round(value * getResources().getDisplayMetrics().density);
@@ -128,6 +138,22 @@ public final class MainActivity extends Activity {
 
         text(body, "🧹 OptiMem", 31, TEAL);
         text(body, "Diagnostic honnête de mémoire • hors ligne • Android 16", 17, MUTED);
+        heading(body, "Assistance vocale");
+        button(body, "🔊 Lire mon bilan mémoire et les conseils", v ->
+                speech.speak(spokenMemorySummary() + " " + spokenAdvice()));
+        button(body, "🔊 Lire la comparaison avant et après", v ->
+                speech.speak(comparison == null ? "Aucune comparaison." : comparison.getText().toString()));
+        button(body, "⏹ Arrêter la lecture", v -> speech.stop());
+        autoVoiceButton = button(body, "Lecture automatique : " +
+                (speech.automaticEnabled() ? "activée" : "désactivée"), v -> {
+            boolean enabled = !speech.automaticEnabled();
+            speech.setAutomaticEnabled(enabled);
+            autoVoiceButton.setText("Lecture automatique : " +
+                    (enabled ? "activée" : "désactivée"));
+            speech.speak(enabled ? "La lecture automatique est activée."
+                    : "Lecture automatique désactivée. Les boutons de lecture restent disponibles.");
+        });
+        text(body, "Synthèse vocale française Android. Pas de répétition toutes les quatre secondes, ni de double lecture automatique avec TalkBack.", 16, MUTED);
         heading(body, "État actuel de la mémoire");
         live = text(body, "Lecture en cours…", 22, WHITE);
         pressure = text(body, "Pression mémoire : calcul en cours", 18, MUTED);
@@ -209,6 +235,28 @@ public final class MainActivity extends Activity {
             journal.append("ERREUR mesure " + e.getClass().getSimpleName());
         }
     }
+    private String spokenMemorySummary() {
+        try {
+            ActivityManager.MemoryInfo memory = snapshot();
+            long unavailable = Math.max(0L, memory.totalMem - memory.availMem);
+            return "Bilan mémoire. " + gb(memory.availMem) + " disponibles sur "
+                    + gb(memory.totalMem) + " accessibles. " + gb(unavailable)
+                    + " occupés ou non disponibles selon la mesure Android. "
+                    + (memory.lowMemory ? "Attention, mémoire faible signalée."
+                    : "Pas d'alerte de mémoire faible.") +
+                    " Ces chiffres ne donnent pas la mémoire de chaque application.";
+        } catch (RuntimeException e) {
+            return "Impossible de lire les chiffres mémoire actuellement.";
+        }
+    }
+    private String spokenAdvice() {
+        return "Conseil : avant de lancer une intelligence artificielle lourde, "
+                + "sauvegarde ton travail, ouvre la maintenance Samsung, puis Mémoire. "
+                + "Tu peux utiliser le bouton Nettoyer de Samsung si nécessaire. "
+                + "Ne limite pas les appels, alarmes et services d'accessibilité. "
+                + "Reviens ensuite appuyer sur Mesurer après les actions manuelles. "
+                + "Utilise ton carnet pour noter les applications à examiner.";
+    }
     private void prepareAI() {
         try {
             ActivityManager.MemoryInfo m = snapshot();
@@ -226,6 +274,8 @@ public final class MainActivity extends Activity {
                     + "\n4. Revenir ici et choisir « Mesurer après les actions manuelles »."
                     + "\n5. Choisir puis lancer FxExtractor ou une autre IA."
                     + "\n\nAucune application tierce n'a été fermée par OptiMem.";
+            speech.speakIfAutomatic("Préparation commencée. " + gb(m.availMem)
+                    + " disponibles. " + spokenAdvice());
             new AlertDialog.Builder(this).setTitle("Préparation IA — manuelle").setMessage(msg)
                     .setPositiveButton("Ouvrir les paramètres", (d, w) -> openPhoneSettings())
                     .setNegativeButton("Rester dans OptiMem", null).show();
@@ -248,6 +298,7 @@ public final class MainActivity extends Activity {
             journal.append("MESURE_APRES " + state(after) + " variation_disponible_octets=" + delta
                     + " actionExterneManuelle=non_verifiable");
             updateComparisonFromPreferences();
+            speech.speakIfAutomatic("Mesure après enregistrée. " + comparison.getText().toString());
             toast("Mesure après enregistrée.");
         } catch (RuntimeException e) {
             journal.append("ERREUR mesure_apres " + e.getClass().getSimpleName());
@@ -308,6 +359,7 @@ public final class MainActivity extends Activity {
     private void showUsage() {
         if (!hasUsageAccess()) {
             journal.append("PERMISSION usage access refusée/non accordée ; aucune donnée lue");
+            speech.speakIfAutomatic("L'accès aux données d'utilisation nécessite une autorisation volontaire. Il ne donne pas la mémoire des autres applications.");
             new AlertDialog.Builder(this).setTitle("Accès facultatif")
                     .setMessage("Sans autorisation d'accès aux données d'utilisation, OptiMem ne peut pas présenter la liste récente. Cette autorisation ne permet pas de connaître la RAM des autres applications ni de les arrêter.")
                     .setPositiveButton("Autoriser manuellement", (d,w) -> openUsageAccessSettings())
@@ -360,9 +412,15 @@ public final class MainActivity extends Activity {
                 rb.setMinHeight(dp(67));
                 group.addView(rb);
             }
-            group.setOnCheckedChangeListener((g,checkedId)->selected[0] = ids.get(checkedId));
+            group.setOnCheckedChangeListener((g,checkedId) -> {
+                selected[0] = ids.get(checkedId);
+                if (selected[0] != null) speech.speakIfAutomatic(appName(selected[0])
+                        + " sélectionnée. Tu peux la mémoriser ou ouvrir ses paramètres.");
+            });
             ScrollView scroll = new ScrollView(this);
             scroll.addView(panel);
+            speech.speakIfAutomatic("Activité récente : " + list.size() +
+                    " applications affichées dans les six dernières heures. Ce n'est pas une mesure de RAM individuelle.");
             new AlertDialog.Builder(this).setTitle("Activité récente — informative")
                     .setView(scroll)
                     .setPositiveButton("Réglages de l'application choisie", (dialog,which) -> {
@@ -376,6 +434,7 @@ public final class MainActivity extends Activity {
                             String pkg = selected[0];
                             if (new WatchlistStore(this).setTracked(pkg, appName(pkg), true)) {
                                 journal.append("CARNET ajout depuis activité récente " + pkg);
+                                speech.speakIfAutomatic(appName(pkg) + " mémorisée dans ton carnet.");
                                 toast("Application mémorisée.");
                                 startActivity(new Intent(this, WatchlistActivity.class));
                             } else {

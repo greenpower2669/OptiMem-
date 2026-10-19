@@ -37,3 +37,11 @@ MainActivity.prepareAI -> SharedPreferences.remove(after, afterTime, afterLow) -
 - `build-android.yml` : build branche `feature/watchlist-v0.2.0` via SDK36/Gradle, APK debug brut `temp/OptiMem-v0.2.0-debug.apk`, checksum, push par le runner sans Release.
 - Flux : clic utilisateur -> filtre/checkbox -> WatchlistStore persistant ; choix d'action -> Intent Android Settings ; sauvegarde/restauration -> document SAF choisi explicitement ; aucune action système supposée effectuée après simple ouverture du réglage.
 - Limites : liste visible non exhaustive sous Android 16 ; impossibilité de mesurer RAM par application ; export nécessaire avant réinstallation et changement de signature debug ; la sauvegarde du carnet ne remplace pas celle du journal OptiMem.
+
+## OPTIMEM-MISSION-003 — propagation vocale v0.3.0
+- `SpeechGuide.java` : Android `TextToSpeech` créé par Activity, langue fr-FR, vitesse 0,87, buffer de la dernière consigne en attendant init, `speak` manuel / `speakIfAutomatic`, `stop` onPause / `shutdown` onDestroy, préférences `optimem_speech` globales à deux activités. Réduit la duplication TalkBack en coupant auto si `AccessibilityManager.isTouchExplorationEnabled()`.
+- `MainActivity.java` : nouvelles commandes vocales en haut de page, résumé RAM depuis MemoryInfo, conseils de préparation et lecture du delta avant/après; lecture auto au premier affichage et sur choix significatifs, jamais dans le poll toutes les 4s.
+- `WatchlistActivity.java` : boutons Lire synthèse / Lire la liste / Arrêter / auto ; lecture de chaque fiche avec statut et note ; annonces lors d'ajouts, validations, sauvegardes, rappels de restrictions ; maintien des données locales et du guide.
+- `AndroidManifest.xml` : entrée `<queries>` TTS_SERVICE pour visibilité Android 11+, pas de INTERNET, pas de microphone ni accessibilité service.
+- `app/build.gradle` : versionName 0.3.0 code 3 ; `.github/workflows/build-android.yml` : branche `feature/optimem-v0.3.0-voice-accessible`, livraison .apk brut sous temp + sha256 ; ne touche pas main.
+- Limites : TTS dépend d'un moteur/voix installés dans Android, pas d'enregistrement et pas de lecture automatique des pages des paramètres système par OptiMem. Consentement de Fab à tester sur matériel toujours requis.

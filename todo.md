@@ -38,3 +38,12 @@
 - [ ] Comparaison honnête RAM Plus 4 vs 8 à contexte similaire ; ne pas attribuer la différence à un processus.
 - [ ] Sécuriser une signature durable pour mises à jour futures, sans publier de clé privée.
 - [ ] Aucun merge main/Release/AAB Play sans décision de Fab.
+
+## OPTIMEM-MISSION-003 — TTS
+- [x] Identifier la panne fonctionnelle : aucune intégration de synthèse vocale Android antérieure.
+- [x] Créer la couche native SpeechGuide, FR, ralentissement, stop et annonce auto avec protection TalkBack ; brancher MainActivity et WatchlistActivity.
+- [x] Préserver code, données et méthodes antérieurs, nouvelle branche et noms d'APK.
+- [ ] Compiler GitHub Actions v0.3.0 et vérifier APK SHA-256 avant livraison.
+- [ ] Essayer sur Samsung : voix française installée, lecture d'accueil, lire un bilan, arrêter, désactiver auto, lecture d'une fiche puis noter/valider, retour réglages ; vérifier TalkBack pas de doubles lectures et aucune annonce toutes les 4 secondes.
+- [ ] Avant désinstallation nécessaire pour nouvelle signature CI, exporter carnet v0.2 depuis son écran. Un import restaure les fiches, pas forcément les mesures ni journaux.
+- [ ] Aucune fusion main ni Release sans Fab.

@@ -48,3 +48,8 @@ Attention : la clé debug est éphémère sur GitHub Actions ; un ancien APK deb
 - Compilation : https://github.com/greenpower2669/OptiMem-/actions/runs/39257212200 (success)
 - Signature : debug du runner GitHub Actions. Pour remplacer une version plus ancienne dont la signature diffère, Android peut demander une désinstallation : **les données privées (et le carnet) sont alors perdues**. Exporter le carnet depuis 0.2.0 avant toute désinstallation future. N'efface jamais manuellement les caches d'autres applications.
 - Validation : non encore testée sur Samsung SM-A576B ; à Fab de la réaliser.
+
+## Version 0.3.0 — une vraie lecture vocale
+La v0.2.0 était encore muette. La v0.3.0 ajoute un gros bouton « Lire mon bilan mémoire et les conseils », un « Lire la comparaison », « Arrêter » et un choix persistant de lecture automatique. Dans le carnet, on peut écouter le résumé, dix premières applications puis la fiche individuelle (nom, statut, remarque). Annonces lors des actions utiles ; silence pendant les relevés de RAM qui se répètent toutes les quatre secondes. Pas de sur-lecture automatique si TalkBack est actif. Aucun Internet ni permission microphone.
+La parole utilise l'application vocale configurée par Android, avec une voix française installée. En l'absence de voix française, consulter les paramètres de synthèse vocale du téléphone. OptiMem ne peut pas lire les fenêtres d'autres applications à la place de TalkBack.
+Branche `feature/optimem-v0.3.0-voice-accessible` ; version `0.3.0`, code 3 ; APK direct uniquement après build réussi et preuve : `temp/OptiMem-v0.3.0-debug.apk`.

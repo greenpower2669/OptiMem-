@@ -1,8 +1,8 @@
-name: OptiMem 0.2 - carnet et APK direct
+name: OptiMem 0.3 - lecture vocale et APK direct
 on:
   push:
     branches:
-      - 'feature/watchlist-v0.2.0'
+      - 'feature/optimem-v0.3.0-voice-accessible'
     paths:
       - 'app/**'
       - '*.gradle'
@@ -39,25 +39,25 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p temp
-          cp app/build/outputs/apk/debug/app-debug.apk temp/OptiMem-v0.2.0-debug.apk
-          (cd temp && sha256sum OptiMem-v0.2.0-debug.apk > OptiMem-v0.2.0-debug.apk.sha256)
-          file temp/OptiMem-v0.2.0-debug.apk
-          cat temp/OptiMem-v0.2.0-debug.apk.sha256
+          cp app/build/outputs/apk/debug/app-debug.apk temp/OptiMem-v0.3.0-debug.apk
+          (cd temp && sha256sum OptiMem-v0.3.0-debug.apk > OptiMem-v0.3.0-debug.apk.sha256)
+          file temp/OptiMem-v0.3.0-debug.apk
+          cat temp/OptiMem-v0.3.0-debug.apk.sha256
       - name: Sauvegarder artefact de secours CI
         uses: actions/upload-artifact@v4
         with:
-          name: OptiMem-v0.2.0-debug
-          path: temp/OptiMem-v0.2.0-debug.apk
+          name: OptiMem-v0.3.0-debug
+          path: temp/OptiMem-v0.3.0-debug.apk
       - name: Publier le .apk brut sous temp sans Release
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f temp/OptiMem-v0.2.0-debug.apk temp/OptiMem-v0.2.0-debug.apk.sha256
+          git add -f temp/OptiMem-v0.3.0-debug.apk temp/OptiMem-v0.3.0-debug.apk.sha256
           if git diff --cached --quiet; then
             echo 'APK direct identique, pas de nouveau commit'
           else
-            git commit -m 'build: direct signed debug APK v0.1.0 (temp)'
-            git push origin HEAD:feature/watchlist-v0.2.0
+            git commit -m 'build: direct signed debug APK v0.3.0 (temp)'
+            git push origin HEAD:feature/optimem-v0.3.0-voice-accessible
           fi

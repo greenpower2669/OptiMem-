@@ -47,3 +47,11 @@ Sources officielles : https://developer.android.com/reference/android/app/Activi
 
 ## Livraison et fiabilité à distinguer
 Le build 0.2.0 passe sur GitHub Actions (#39257212200). Le suivi local, les notes et l'import/export existent dans le code compilé mais leur robustesse sur Samsung n'est pas encore démontrée. Signatures debug non stables : sauvegarde externe explicite nécessaire avant désinstallation.
+
+## OPTIMEM-MISSION-003 — contrat vocal v0.3.0
+- Le défaut visuel rapporté par Fab est fonctionnel : ni l'accueil ni le carnet ne lisaient à voix haute malgré l'accessibilité de taille de texte. Correction par TextToSpeech Android natif (classe SpeechGuide).
+- Français France, débit initial modéré 0,87 ; voix système choisie par Android. Pas de permission réseau, pas de service, pas d'enregistrement microphone ni synthèse distante pilotée par l'app. Une voix française installée est nécessaire ; sinon afficher un diagnostic et pointer vers la synthèse vocale Android.
+- Lecture auto activée par défaut et mémorisée dans `optimem_speech`, ne pas déclencher les annonces automatiques lorsque le lecteur d'écran en exploration tactile est actif. Boutons Lire disponibles même si auto désactivée ; bouton Stop ; arrêter TTS à onPause et shutdown à onDestroy.
+- Annoncer état RAM à l'ouverture sans faire parler l'actualisation 4 secondes ; dire conseils et résultat de comparaison lors de l'action. En carnet : annoncer résumé, lire jusqu'à 10 fiches puis proposer lecture individuelle sans discours interminable, lire les notes personnelles et guider les restrictions.
+- Aucune affirmation de privilèges Samsung et aucune exécution Android automatique. Autres applications/Paramètres Samsung restent hors du contrôle de la voix d'OptiMem : utiliser TalkBack pour lire les écrans système.
+- Si le moteur TTS Android ne possède pas les voix françaises, la lecture locale peut être indisponible ; pas de promesse d'audio tant qu'installée et testée sur SM-A576B.

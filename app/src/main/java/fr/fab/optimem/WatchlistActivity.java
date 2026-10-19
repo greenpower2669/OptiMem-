@@ -46,6 +46,8 @@ public final class WatchlistActivity extends Activity {
     private static final int EXPORT = 410, IMPORT = 411;
     private WatchlistStore store;
     private LocalJournal journal;
+    private SpeechGuide speech;
+    private Button automaticVoiceButton;
     private LinearLayout listContainer;
     private TextView summary;
 
@@ -53,7 +55,18 @@ public final class WatchlistActivity extends Activity {
         super.onCreate(state);
         store = new WatchlistStore(this);
         journal = new LocalJournal(this);
+        speech = new SpeechGuide(this);
         setup();
+        speech.onPageOpened("Voici ton carnet personnel OptiMem. " + spokenListSummary()
+                + " Pour entendre les conseils, utilise le gros bouton Lire mon carnet.");
+    }
+    @Override protected void onPause() {
+        speech.stop();
+        super.onPause();
+    }
+    @Override protected void onDestroy() {
+        speech.shutdown();
+        super.onDestroy();
     }
     @Override protected void onResume() {
         super.onResume();
@@ -98,6 +111,20 @@ public final class WatchlistActivity extends Activity {
 
         text(root, "📋 Mon carnet d'applications", 27, TEAL);
         text(root, "Coche les applications à examiner : elles resteront dans ton carnet après la fermeture ou le redémarrage d'OptiMem. Aucune application n'est arrêtée.", 17, MUTED);
+        button(root, "🔊 Lire mon carnet et les conseils", v ->
+                speech.speak(spokenListSummary() + " " + spokenGuideSummary()));
+        button(root, "🔊 Lire la liste des applications mémorisées", v ->
+                speech.speak(spokenListContents()));
+        button(root, "⏹ Arrêter la lecture", v -> speech.stop());
+        automaticVoiceButton = button(root, "Lecture automatique : " +
+                (speech.automaticEnabled() ? "activée" : "désactivée"), v -> {
+            boolean enabled = !speech.automaticEnabled();
+            speech.setAutomaticEnabled(enabled);
+            automaticVoiceButton.setText("Lecture automatique : " +
+                    (enabled ? "activée" : "désactivée"));
+            speech.speak(enabled ? "Lecture automatique activée." :
+                    "Lecture automatique désactivée. Les boutons de lecture restent disponibles.");
+        });
         summary = text(root, "Chargement…", 19, WHITE);
         button(root, "➕ Choisir des applications à surveiller", v -> chooseInstalledApps());
         button(root, "Guide : limiter, mettre en veille ou désinstaller", v -> guide(null));
@@ -108,6 +135,42 @@ public final class WatchlistActivity extends Activity {
         listContainer = vertical();
         root.addView(listContainer);
         refreshList();
+    }
+    private String spokenListSummary() {
+        List<WatchlistStore.Entry> records = store.entries();
+        int done = 0;
+        for (WatchlistStore.Entry row : records) if (row.reviewed) done++;
+        return "Ton carnet contient " + records.size() + " applications, dont " +
+                done + " déjà examinées et " + (records.size() - done) + " à vérifier.";
+    }
+    private String spokenListContents() {
+        List<WatchlistStore.Entry> records = store.entries();
+        if (records.isEmpty()) return "Le carnet est vide. Ajoute d'abord les applications que tu souhaites examiner.";
+        StringBuilder result = new StringBuilder(spokenListSummary());
+        int limit = Math.min(10, records.size());
+        for (int i = 0; i < limit; i++) {
+            WatchlistStore.Entry app = records.get(i);
+            result.append(" Numéro ").append(i + 1).append(". ")
+                    .append(app.label).append(app.reviewed ? ", examinée." : ", à examiner.");
+            if (!app.note.trim().isEmpty()) result.append(" Remarque : ").append(app.note);
+        }
+        if (records.size() > limit) result.append(" Il reste ")
+                .append(records.size() - limit)
+                .append(" fiches. Écoute-les individuellement grâce à Lire cette fiche.");
+        return result.toString();
+    }
+    private String spokenGuideSummary() {
+        return "Pour limiter une application, ouvre ses paramètres Android et cherche Batterie, "
+                + "utilisation en arrière-plan ou restriction. Les applications facultatives peuvent "
+                + "être mises en veille dans les réglages Samsung. "
+                + "Attention aux appels, aux notifications, aux alarmes, aux sauvegardes et "
+                + "aux services d'accessibilité. Ne désinstalle jamais sans vérifier les données "
+                + "à conserver. OptiMem ne ferme aucune application automatiquement.";
+    }
+    private String noteForSpeech(String pkg) {
+        for (WatchlistStore.Entry entry : store.entries())
+            if (entry.packageName.equals(pkg)) return entry.note;
+        return "";
     }
     private void toast(String s) { Toast.makeText(this, s, Toast.LENGTH_LONG).show(); }
     private void refreshList() {
@@ -134,6 +197,12 @@ public final class WatchlistActivity extends Activity {
 
         text(card, row.label, 21, WHITE);
         text(card, row.packageName, 14, MUTED);
+        button(card, "🔊 Lire cette fiche : " + row.label, v -> {
+            String note = noteForSpeech(row.packageName);
+            speech.speak(row.label + ". " + (row.reviewed ? "Déjà vérifiée." : "Encore à examiner.") +
+                    (note.isEmpty() ? " Aucune note enregistrée." : " Remarque : " + note) +
+                    " Tu peux enregistrer une remarque, la déclarer vérifiée ou ouvrir ses paramètres.");
+        });
         if (row.packageName.equals(getPackageName())) {
             text(card, "OptiMem lui-même : ne désinstalle pas cet outil pour optimiser la RAM.", 16, MUTED);
         }
@@ -186,6 +255,7 @@ public final class WatchlistActivity extends Activity {
         reviewed.setOnCheckedChangeListener((check, value) -> {
             if (store.update(row.packageName, note.getText().toString(), value)) {
                 journal.append("CARNET état examiné enregistré " + row.packageName + " = " + value);
+                speech.speakIfAutomatic(row.label + (value ? " vérifiée." : " remise à examiner."));
                 updateCount();
             } else {
                 reviewed.setOnCheckedChangeListener(null);
@@ -197,6 +267,7 @@ public final class WatchlistActivity extends Activity {
         button(card, "Enregistrer note et statut de " + row.label, v -> {
             if (store.update(row.packageName, note.getText().toString(), reviewed.isChecked())) {
                 journal.append("CARNET note/statut sauvegardés " + row.packageName + " examiné=" + reviewed.isChecked());
+                speech.speakIfAutomatic("Remarque et statut enregistrés pour " + row.label + ".");
                 toast("Fiche enregistrée.");
                 refreshList();
             } else {
@@ -266,6 +337,7 @@ public final class WatchlistActivity extends Activity {
                 cb.setOnCheckedChangeListener((button, isChecked) -> {
                     if (store.setTracked(pkg, label, isChecked)) {
                         journal.append("CARNET " + (isChecked ? "sélection" : "déselection") + " " + pkg);
+                        speech.speakIfAutomatic(label + (isChecked ? " ajoutée au carnet." : " retirée du carnet."));
                         updateCount();
                     } else {
                         cb.setOnCheckedChangeListener(null);
@@ -286,6 +358,7 @@ public final class WatchlistActivity extends Activity {
             @Override public void afterTextChanged(Editable s) { }
         });
         populate.run();
+        speech.speakIfAutomatic("Sélectionne les applications à surveiller. Les cases sont sauvegardées immédiatement. Tu peux filtrer la liste avec le champ Recherche.");
         new AlertDialog.Builder(this).setTitle("Choisir les applications à surveiller")
                 .setView(dialogContent)
                 .setPositiveButton("Terminé", (d,w) -> refreshList()).show();
@@ -302,6 +375,7 @@ public final class WatchlistActivity extends Activity {
                 + "3. Pour la désinstaller : Paramètres → Applications → application → Désinstaller, si Android propose l'option. Vérifie sauvegardes et données avant. Une application système peut ne pas être désinstallable.\n\n"
                 + "4. « Forcer l'arrêt » est temporaire : Android ou toi-même pourrez relancer l'application. Une restriction de batterie peut retarder des alertes ou notifications.\n\n"
                 + "IMPORTANT : ne touche pas aux services d'accessibilité, appels, messagerie, sécurité, réveils, sauvegardes ou fonctions critiques. OptiMem ne change aucun de ces réglages à ta place. Aucun gain de RAM garanti.";
+        speech.speakIfAutomatic(spokenGuideSummary());
         new AlertDialog.Builder(this).setTitle("Guide manuel et réversible")
                 .setMessage(msg)
                 .setPositiveButton(pkg == null ? "Réglages des applications" : "Paramètres de cette application",
@@ -354,6 +428,7 @@ public final class WatchlistActivity extends Activity {
                 out.write(store.exportJson().getBytes(StandardCharsets.UTF_8));
                 out.flush();
                 journal.append("CARNET sauvegarde manuelle via sélecteur Android, fiches=" + store.entries().size());
+                speech.speakIfAutomatic("Carnet sauvegardé dans le fichier choisi.");
                 toast("Carnet sauvegardé.");
             } catch (IOException | JSONException | RuntimeException e) {
                 journal.append("ECHEC sauvegarde carnet " + e.getClass().getSimpleName());
@@ -378,6 +453,7 @@ public final class WatchlistActivity extends Activity {
                                 int added = store.mergeImported(payload);
                                 journal.append("CARNET restauration manuelle fichier, nouvelles_fiches=" + added);
                                 refreshList();
+                                speech.speakIfAutomatic(added + " nouvelles fiches importées.");
                                 toast(added + " nouvelles fiches importées.");
                             } catch (JSONException e) {
                                 journal.append("ECHEC restauration carnet format ou stockage");

@@ -48,3 +48,8 @@ Risque confirmé par la chaîne de compilation : chaque APK debug peut être sig
 - `temp/OptiMem-v0.2.0-debug.apk` : 43967 octets, SHA-256 `6ab26c0995f82ae98acd4c267e516988e2d3f0f2e634ff94da580b4f6c676ae3`.
 - Fichier checksum observé sur la même branche ; aucun ZIP requis par l'utilisateur, aucune Release ni merge main.
 - **Limite** : compilation ≠ essai matériel Samsung ; toutes les interactions (checkbox, sauvegarde, guide, TalkBack, redémarrage) restent à valider.
+
+## 2026-10-19 — ACCESS-VOICE-003 : absence de lecture pour Fab
+- Signalement explicite : « Rien n'est lu ^^ pour me mâcher le travail tu sais pour mes yeux ». Les versions 0.1/0.2 n'incluaient aucun moteur TextToSpeech. Les tailles de boutons/contrastes ne répondent donc pas au besoin de lecture.
+- Remède de conception : synthèse vocale Android française native, débit modéré, ouverture automatique contrôlée, lecture des données pertinentes et des fiches choisies, commandes Stop et bascule persistante auto. Pas de double annonce systématique avec TalkBack.
+- Précautions : moteur local Android potentiellement manquant ; signature debug CI éphémère (sauvegarde du carnet v0.2 avant désinstallation), fenêtres de Paramètres Samsung lues par TalkBack Android et non par OptiMem. Tests sur matériel non encore effectués.
