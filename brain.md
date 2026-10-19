@@ -1,0 +1,31 @@
+# OptiMem — contrat fonctionnel 0.1.0
+
+## Contexte
+Samsung SM-A576B sous Android 16 ; préparer FxExtractor / Stable Audio 3 sans root, ADB, privilèges ni suppression d'application tierce.
+
+## Audit réel
+L'API Android ActivityManager.MemoryInfo expose totalMem, availMem, threshold, lowMemory (et advertisedMem depuis API 34). Sur Android 16 API 36, freeMem n'est pas disponible (introduit API 37). totalMem = RAM accessible au noyau, non nécessairement la RAM commercialement annoncée ; availMem tient compte du fonctionnement mémoire du noyau et ne correspond pas à un tas de RAM immédiatement inoccupée. totalMem - availMem est une approximation de mémoire non disponible, incluant potentiellement cache/système ; il est interdit de l'appeler consommation cumulée des applications. La portion récupérable par application est non observable via l'API publique ici.
+
+UsageStatsManager.queryEvents / queryUsageStats demandent un consentement explicite dans Accès aux données d'utilisation. Dernier événement en avant-plan = activité récente, jamais processus confirmé ni RAM tierce mesurée. Sans permission afficher "indisponible" et lien au réglage. Les limitations de visibilité des packages peuvent remplacer les noms par identifiants.
+
+Aucune API Android publique ne permet à une application standard de forcer l'arrêt des autres applications arbitrairement ou de paramétrer Samsung RAM Plus. Ouvrir les réglages Android applicatifs via Intent ACTION_APPLICATION_DETAILS_SETTINGS. Samsung décrit Paramètres > Maintenance de l'appareil > Mémoire > RAM Plus et redémarrage éventuel ; ne pas supposer un raccourci direct garanti.
+
+## Fonctions prévues
+- Tableau de bord réactualisé uniquement en activité visible, sans service permanent.
+- Courbe locale des snapshots d'observation, échantillonnée toutes les 4 secondes ; ne pas extrapoler des valeurs manquantes.
+- Avant/après stocké localement et signalisé comme "variation observée", pas comme RAM libérée causalement.
+- Guide RAM Plus 4 et 8 Go avec annotations manuelles (ne peut lire valeur du réglage).
+- Journal privé copiable par action utilisateur ; aucune connexion Internet, aucun transfert.
+- Sélection manuelle des applications récentes et page paramètres ; sélection d'une application IA installée et lancement.
+- Nettoyer seulement cacheDir de ce package, sans stockage externe.
+- Design accessible natif, boutons de bonne taille et texte explicite, couleurs non uniques ; icône originale puce sourire/balai.
+
+## Décisions de prudence
+Pas de QUERY_ALL_PACKAGES, killBackgroundProcesses, forceStopPackage, dumpsys, commandes shell/ADB, permissions étendues réseau. Pas de lecture /proc d'autres processus. Aucun "tout nettoyer".
+L'application est un instrument d'observation et d'aide, jamais un gain de mémoire garanti.
+
+## Sources officielles
+https://developer.android.com/reference/android/app/ActivityManager.MemoryInfo
+https://developer.android.com/reference/android/app/usage/UsageStatsManager
+https://developer.android.com/reference/android/content/Intent#ACTION_APPLICATION_DETAILS_SETTINGS
+https://www.samsung.com/hk_en/support/mobile-devices/what-is-ram-plus-and-how-to-use-it/

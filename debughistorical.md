@@ -1,0 +1,12 @@
+# OptiMem — incidents, observations et preuves
+
+## 2026-10-19 — AUDIT-001 : la notion de "nettoyer toute la RAM" est invalide
+Observation documentée : ActivityManager.MemoryInfo fournit une mesure globale et Android restreint la visibilité/arrêt des autres processus. Hypothèse initiale à exclure : mesurer individuellement et arrêter arbitrairement les apps tierces sans privilèges.
+Résolution de conception : interface ne fait aucun faux nettoyage ; accès aux paramètres manuels et labels "information non disponible". Pas d'incident de fonctionnement constaté sur appareil (tests non exécutés).
+Sources : https://developer.android.com/reference/android/app/ActivityManager.MemoryInfo ; https://developer.android.com/reference/android/app/usage/UsageStatsManager
+
+## 2026-10-19 — INFRA-001 : nom du dépôt
+La demande mentionne greenpower2669/OptiMem. Le dépôt existant et accessible avec droit push est greenpower2669/OptiMem- (tiret final) ; branche dédiée feature/optimem-v0.1.0-native-memory créée, main conservée. Aucun renommage tenté.
+
+## 2026-10-19 — BUILD-001 : preuves attendues
+L'état du code source / la création de branche ne valent pas succès de compilation. Avant d'affirmer la livraison, relever run GitHub Actions, conclusion, commit et SHA-256 effectivement présents, ainsi que le lien .apk existant. Erreurs CI à consigner sans inventer de succès.
