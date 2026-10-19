@@ -146,6 +146,11 @@ public final class MainActivity extends Activity {
         updateChosen();
         button(body, "Lancer l'application choisie", v -> launchChosen());
 
+        heading(body, "Mon carnet des applications à examiner");
+        button(body, "📋 Ouvrir mon carnet (cases à cocher)", v ->
+                startActivity(new Intent(this, WatchlistActivity.class)));
+        text(body, "Garde une liste personnelle des logiciels douteux, avec notes et accès aux réglages manuels. Sauvegarde possible sans serveur.", 16, MUTED);
+
         heading(body, "Applications récemment actives");
         text(body, "L'accès d'utilisation est facultatif. Une application récemment affichée n'est pas nécessairement encore en mémoire. RAM individuelle : non disponible.", 17, MUTED);
         button(body, "Voir l'activité récente et les paramètres", v -> showUsage());
@@ -363,6 +368,21 @@ public final class MainActivity extends Activity {
                     .setPositiveButton("Réglages de l'application choisie", (dialog,which) -> {
                         if (selected[0] != null) openAppSettings(selected[0]);
                         else toast("Aucune application sélectionnée.");
+                    })
+                    .setNeutralButton("📌 Mémoriser l'application", (dialog, which) -> {
+                        if (selected[0] == null) {
+                            toast("Sélectionne une application dans la liste.");
+                        } else {
+                            String pkg = selected[0];
+                            if (new WatchlistStore(this).setTracked(pkg, appName(pkg), true)) {
+                                journal.append("CARNET ajout depuis activité récente " + pkg);
+                                toast("Application mémorisée.");
+                                startActivity(new Intent(this, WatchlistActivity.class));
+                            } else {
+                                journal.append("ERREUR ajout carnet " + pkg);
+                                toast("Impossible de mémoriser.");
+                            }
+                        }
                     })
                     .setNegativeButton("Fermer", null).show();
         } catch (SecurityException denied) {

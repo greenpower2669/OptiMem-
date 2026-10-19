@@ -13,6 +13,7 @@
         android:theme="@style/Theme.OptiMem"
         android:icon="@drawable/ic_optichip"
         android:usesCleartextTraffic="false">
+        <activity android:name=".WatchlistActivity" android:exported="false" android:label="Carnet OptiMem" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -35,3 +35,9 @@ L'état du code source / la création de branche ne valent pas succès de compil
 - APK brut 29159 octets. SHA-256 enregistré : 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312. URL : https://raw.githubusercontent.com/greenpower2669/OptiMem-/feature/optimem-v0.1.0-native-memory/temp/OptiMem-v0.1.0-debug.apk
 - Attention : builds debug signées avec clés de développement éphémères ; ne pas garantir mise à jour en place depuis une APK d'un run antérieur. Désinstallation potentiellement nécessaire, entraînant perte des données locales OptiMem. Une signature durable requiert validation et configuration dédiée.
 - Tests matériels Samsung, refus permission / TalkBack / efficacité réelle non exécutés. Ne pas les déclarer conformes avant retour de Fab.
+
+## 2026-10-19 — DIAG-RAMPLUS-002
+Observation rapportée : RAM Plus 4→8 Go, écran indiquant environ 2→4 Go « occupés ». Pas de deux relevés horodatés strictement comparables, pas d'attribution possible à une application. Hypothèses : mise en cache/conservation différente, état système différent, différence des indicateurs affichés. Ne pas promettre récupération de 2 Go. Documenté par Samsung : la RAM Plus utilise le stockage en mémoire virtuelle.
+
+## 2026-10-19 — DATA-WATCHLIST-002
+Risque confirmé par la chaîne de compilation : chaque APK debug peut être signée différemment sur un runner éphémère. Une réinstallation par désinstallation fait perdre préférences et liste. Correctif fonctionnel proposé : sauvegarde JSON manuelle depuis la nouvelle version (SAF), importation additive après installation, sans serveur. Tests Android à faire avant de considérer l'import/export validé sur téléphone.

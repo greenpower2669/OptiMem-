@@ -34,3 +34,10 @@ Compilation finale : https://github.com/greenpower2669/OptiMem-/actions/runs/392
 APK direct : https://raw.githubusercontent.com/greenpower2669/OptiMem-/feature/optimem-v0.1.0-native-memory/temp/OptiMem-v0.1.0-debug.apk
 SHA-256 : 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312
 Attention : la clé debug est éphémère sur GitHub Actions ; un ancien APK debug de ce projet peut nécessiter une désinstallation avant installation de la nouvelle build, ce qui efface les préférences et journaux OptiMem. Aucune Release ni merge main.
+
+## Version 0.2.0 (carnet de suspicion et aide)
+- Bouton « 📋 Ouvrir mon carnet » : sélectionner avec cases à cocher les applications visibles, enregistrer notes et « vérifiée » sans suppression des apps.
+- Ajout également possible depuis Activité récente si autorisée. Une activité passée ne prouve pas la consommation mémoire actuelle.
+- Guide intégré Samsung pour batterie, applications en veille/veille profonde et désinstallation manuelle ; lien vers fiche Android par application.
+- Sauvegarde/restauration JSON via sélection locale Android : conseillée avant toute désinstallation OptiMem, car les APK debug CI utilisent des clés éphémères.
+- Branche `feature/watchlist-v0.2.0`, APK après succès CI dans `temp/OptiMem-v0.2.0-debug.apk`. Aucun réseau, accès root, traitement automatique d'autres apps.

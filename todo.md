@@ -28,3 +28,13 @@
 - Dépôt demandé sans tiret absent ; dépôt OptiMem- utilisé car existant, pas de renommage.
 - Le matériel de test est chez Fab : absence de preuve physique tant que test non réalisé.
 - AAB non approprié à cette étape sans clé Play durable, ne pas prétendre signer une version Play.
+
+## OPTIMEM-MISSION-002 — avancement v0.2.0
+- [x] Conserver la nouvelle mission dans ordres-de-mission.md ; relire les quatre mémoires du projet.
+- [x] Concevoir carnet persistant, cases à cocher, notes, état vérifié, accès réglages et guide Samsung ; export/import manuel pour éviter pertes de listes après désinstallation.
+- [ ] Compiler sur GitHub Actions et relever preuve, empreinte et commit du véritable APK brut.
+- [ ] Tester sur SM-A576B la sélection et recherche des applications, visibilité partielle, reprise/redémarrage, notes, retrait confirmé, permissions refusées, backup/import.
+- [ ] Tester guidage/Intent vers fiches des apps et réglages de batterie. Ne jamais désactiver services critiques.
+- [ ] Comparaison honnête RAM Plus 4 vs 8 à contexte similaire ; ne pas attribuer la différence à un processus.
+- [ ] Sécuriser une signature durable pour mises à jour futures, sans publier de clé privée.
+- [ ] Aucun merge main/Release/AAB Play sans décision de Fab.

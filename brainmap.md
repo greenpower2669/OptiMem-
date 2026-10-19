@@ -27,3 +27,13 @@ Applications IA : queryIntentActivities MAIN+LAUNCHER -> choix local dans Shared
 
 ## Réinitialisation du cycle avant/après
 MainActivity.prepareAI -> SharedPreferences.remove(after, afterTime, afterLow) -> nouveau snapshot before -> measureAfter seulement ensuite. Prévenir les faux deltas après relance de la préparation et après un redémarrage.
+
+## OPTIMEM-MISSION-002 — carte v0.2.0
+- `WatchlistStore.java` : modèle Entry (packageName, label, note, reviewed, addedAt), préférences `optimem_watchlist/records_json`, schéma JSON v1 ; entries, contains, setTracked, update, exportJson, inspectImport, mergeImported. Limites 300 fiches, 1500 caractères de note, 512 KiB pour import. commit synchrones, import n'écrase pas l'existant.
+- `WatchlistActivity.java` : deuxième Activity non exportée, ScrollView/CheckBox/EditText/boutons accessibles ; catalogue par `queryIntentActivities(ACTION_MAIN/CATEGORY_LAUNCHER)` + recherche sur 65 résultats visibles ; consultation de fiches, guide, ouverture Settings, sélecteur de documents Android SAF pour export/import. Aucune tâche permanente.
+- `MainActivity.java` : bouton carnet et ajout optionnel depuis événement de premier plan dans dialogue de données d'utilisation.
+- `AndroidManifest.xml` : nouvelle Activity locale sans INTERNET/QUERY_ALL_PACKAGES/autorisations de contrôle système.
+- `app/build.gradle` : versionCode=2, versionName=0.2.0, identité `fr.fab.optimem` inchangée.
+- `build-android.yml` : build branche `feature/watchlist-v0.2.0` via SDK36/Gradle, APK debug brut `temp/OptiMem-v0.2.0-debug.apk`, checksum, push par le runner sans Release.
+- Flux : clic utilisateur -> filtre/checkbox -> WatchlistStore persistant ; choix d'action -> Intent Android Settings ; sauvegarde/restauration -> document SAF choisi explicitement ; aucune action système supposée effectuée après simple ouverture du réglage.
+- Limites : liste visible non exhaustive sous Android 16 ; impossibilité de mesurer RAM par application ; export nécessaire avant réinstallation et changement de signature debug ; la sauvegarde du carnet ne remplace pas celle du journal OptiMem.

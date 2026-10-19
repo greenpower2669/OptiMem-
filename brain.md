@@ -35,3 +35,12 @@ Dans le thème Android sombre, les libellés de l'activité récente utilisent b
 
 ## Invariant de session de préparation
 Toute nouvelle commande Préparer réinitialise l'ancienne mesure « après » persistante avant de stocker le nouvel « avant », afin de ne jamais afficher un delta entre deux préparations distinctes.
+
+## OPTIMEM-MISSION-002 — contrat v0.2.0
+- Bouton « carnet d'applications à examiner » ; sélection multi-applications visibles par PackageManager et sous liste UsageStats si permission ; cases à cocher, notes, état « vérifié ». Visibilité Android limitée, aucun statut d'exécution/RAM individuelle inféré.
+- Stockage JSON privé dans SharedPreferences, sur disque et indépendant des sessions ; aucune permission Internet ; retrait explicite confirmé sans toucher application.
+- Pour chaque app : fiche + guide Samsung (veille, veille profonde, restrictions, désinstallation manuelle), lancement de ACTION_APPLICATION_DETAILS_SETTINGS ou page réglages générale de repli ; pas de commande de nettoyage forcé.
+- Exclure toute modification automatique des services système, d'accessibilité, de communication et de sécurité ; avertissement notamment sur notifications qui cesseraient.
+- Export JSON explicite via ACTION_CREATE_DOCUMENT, import via ACTION_OPEN_DOCUMENT avec validation de schéma et confirmation ; fusion additive, préserver notes locales. La signature debug CI peut exiger une réinstallation avec perte des données : faire sauvegarde AVANT.
+- RAM Plus est de la mémoire virtuelle sur stockage. Le passage 4→8 Go peut modifier la conservation des apps et caches mais ne permet pas de prouver que 2 Go de RAM ont été « repris » par celles-ci. Seules mesures globales Android sont disponibles.
+Sources officielles : https://developer.android.com/reference/android/app/ActivityManager.MemoryInfo ; https://developer.android.com/guide/topics/providers/document-provider ; https://www.samsung.com/hk_en/support/mobile-devices/what-is-ram-plus-and-how-to-use-it/ ; https://www.samsung.com/ca/support/mobile-devices/galaxy-phone-sleeping-apps/.

@@ -24,3 +24,9 @@ Créer une vraie application Android native en français, légère, accessible e
 11. Vérifier sur appareil la lecture, permissions refusées, avant/après, redémarrage, accessibilité et non-dégradation ; Fab conserve la validation matérielle.
 
 Statut : CODE + APK DEBUG LIVRÉS, À VALIDER SUR SAMSUNG. CI final GitHub Actions #39244803588 : success ; APK brut disponible sous temp/ sur branche dédiée, taille 29159 octets ; SHA-256 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312. Pas d'AAB signé Play, aucun test matériel revendiqué. Pas de merge main ni Release.
+
+## OPTIMEM-MISSION-002 — Carnet persistant, Fab 19/10/2026
+**Demande conservée, non annulée :** mémoriser dans OptiMem par cases à cocher les applications possiblement inutiles ou douteuses, revoir ce carnet au fil des jours et ajouter des notes. Pour chaque application, fournir un guide concret de mise en veille, veille profonde, restriction, désinstallation *manuelle* et accès à la page Android adéquate lorsque possible. Ne jamais forcer d'arrêt ni désinstaller soi-même ; protéger applications système, de communication, d'accessibilité, de sécurité et sauvegardes. Contexte rapporté : après RAM Plus 4→8 Go, Fab constate 2→4 Go « occupés » ; ne jamais présenter cela comme preuve de consommation d'une application sans mesure.
+
+Version de travail v0.2.0 / versionCode 2 : package `fr.fab.optimem` inchangé ; branche dédiée `feature/watchlist-v0.2.0` ; APK direct attendu `temp/OptiMem-v0.2.0-debug.apk`. Les fichiers v0.1.0 nommés dans IMMUTABLE restent les livraisons historiques. Pas de merge main ni de Release sans validation de Fab. Prévoir export/import du carnet pour survivre à une réinstallation imposée par une signature debug différente.
+Statut : **développement en cours, non validé sur Samsung**.
