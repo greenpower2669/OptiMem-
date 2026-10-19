@@ -41,3 +41,10 @@ Observation rapportée : RAM Plus 4→8 Go, écran indiquant environ 2→4 Go «
 
 ## 2026-10-19 — DATA-WATCHLIST-002
 Risque confirmé par la chaîne de compilation : chaque APK debug peut être signée différemment sur un runner éphémère. Une réinstallation par désinstallation fait perdre préférences et liste. Correctif fonctionnel proposé : sauvegarde JSON manuelle depuis la nouvelle version (SAF), importation additive après installation, sans serveur. Tests Android à faire avant de considérer l'import/export validé sur téléphone.
+
+## 2026-10-19 — BUILD-WATCHLIST-002 : compilation et APK vérifiés
+- GitHub Actions run #39257212200 job 118075396501 : **success** (Gradle assembleDebug, contrôle format APK avec signature debug et copie directe dans temp).
+- Commit ayant ajouté le binaire : 3dc7eb3804f7023e2d41af404b291af9c1bc083d.
+- `temp/OptiMem-v0.2.0-debug.apk` : 43967 octets, SHA-256 `6ab26c0995f82ae98acd4c267e516988e2d3f0f2e634ff94da580b4f6c676ae3`.
+- Fichier checksum observé sur la même branche ; aucun ZIP requis par l'utilisateur, aucune Release ni merge main.
+- **Limite** : compilation ≠ essai matériel Samsung ; toutes les interactions (checkbox, sauvegarde, guide, TalkBack, redémarrage) restent à valider.

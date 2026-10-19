@@ -41,3 +41,10 @@ Attention : la clé debug est éphémère sur GitHub Actions ; un ancien APK deb
 - Guide intégré Samsung pour batterie, applications en veille/veille profonde et désinstallation manuelle ; lien vers fiche Android par application.
 - Sauvegarde/restauration JSON via sélection locale Android : conseillée avant toute désinstallation OptiMem, car les APK debug CI utilisent des clés éphémères.
 - Branche `feature/watchlist-v0.2.0`, APK après succès CI dans `temp/OptiMem-v0.2.0-debug.apk`. Aucun réseau, accès root, traitement automatique d'autres apps.
+
+## Livraison vérifiée — 0.2.0
+- APK sans ZIP : https://raw.githubusercontent.com/greenpower2669/OptiMem-/feature/watchlist-v0.2.0/temp/OptiMem-v0.2.0-debug.apk
+- SHA-256 : `6ab26c0995f82ae98acd4c267e516988e2d3f0f2e634ff94da580b4f6c676ae3`
+- Compilation : https://github.com/greenpower2669/OptiMem-/actions/runs/39257212200 (success)
+- Signature : debug du runner GitHub Actions. Pour remplacer une version plus ancienne dont la signature diffère, Android peut demander une désinstallation : **les données privées (et le carnet) sont alors perdues**. Exporter le carnet depuis 0.2.0 avant toute désinstallation future. N'efface jamais manuellement les caches d'autres applications.
+- Validation : non encore testée sur Samsung SM-A576B ; à Fab de la réaliser.

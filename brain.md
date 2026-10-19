@@ -44,3 +44,6 @@ Toute nouvelle commande Préparer réinitialise l'ancienne mesure « après » p
 - Export JSON explicite via ACTION_CREATE_DOCUMENT, import via ACTION_OPEN_DOCUMENT avec validation de schéma et confirmation ; fusion additive, préserver notes locales. La signature debug CI peut exiger une réinstallation avec perte des données : faire sauvegarde AVANT.
 - RAM Plus est de la mémoire virtuelle sur stockage. Le passage 4→8 Go peut modifier la conservation des apps et caches mais ne permet pas de prouver que 2 Go de RAM ont été « repris » par celles-ci. Seules mesures globales Android sont disponibles.
 Sources officielles : https://developer.android.com/reference/android/app/ActivityManager.MemoryInfo ; https://developer.android.com/guide/topics/providers/document-provider ; https://www.samsung.com/hk_en/support/mobile-devices/what-is-ram-plus-and-how-to-use-it/ ; https://www.samsung.com/ca/support/mobile-devices/galaxy-phone-sleeping-apps/.
+
+## Livraison et fiabilité à distinguer
+Le build 0.2.0 passe sur GitHub Actions (#39257212200). Le suivi local, les notes et l'import/export existent dans le code compilé mais leur robustesse sur Samsung n'est pas encore démontrée. Signatures debug non stables : sauvegarde externe explicite nécessaire avant désinstallation.

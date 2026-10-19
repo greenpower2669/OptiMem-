@@ -32,7 +32,7 @@
 ## OPTIMEM-MISSION-002 — avancement v0.2.0
 - [x] Conserver la nouvelle mission dans ordres-de-mission.md ; relire les quatre mémoires du projet.
 - [x] Concevoir carnet persistant, cases à cocher, notes, état vérifié, accès réglages et guide Samsung ; export/import manuel pour éviter pertes de listes après désinstallation.
-- [ ] Compiler sur GitHub Actions et relever preuve, empreinte et commit du véritable APK brut.
+- [x] Compiler sur GitHub Actions : run #39257212200, job 118075396501, toutes les étapes success.
 - [ ] Tester sur SM-A576B la sélection et recherche des applications, visibilité partielle, reprise/redémarrage, notes, retrait confirmé, permissions refusées, backup/import.
 - [ ] Tester guidage/Intent vers fiches des apps et réglages de batterie. Ne jamais désactiver services critiques.
 - [ ] Comparaison honnête RAM Plus 4 vs 8 à contexte similaire ; ne pas attribuer la différence à un processus.
