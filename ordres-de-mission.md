@@ -23,4 +23,4 @@ Créer une vraie application Android native en français, légère, accessible e
 10. Compiler GitHub Actions : APK debug v0.1.0 direct décompressé côté GitHub sous temp, SHA-256, commit et preuve CI ; AAB si adapté, explicite sur signature. Pas de merge main ni Release.
 11. Vérifier sur appareil la lecture, permissions refusées, avant/après, redémarrage, accessibilité et non-dégradation ; Fab conserve la validation matérielle.
 
-Statut : implémentation initiale du code en cours. Ne pas déclarer livrée avant une preuve réelle de compilation et une URL .apk existante.
+Statut : CODE + APK DEBUG LIVRÉS, À VALIDER SUR SAMSUNG. CI final GitHub Actions #39244803588 : success ; APK brut disponible sous temp/ sur branche dédiée, taille 29159 octets ; SHA-256 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312. Pas d'AAB signé Play, aucun test matériel revendiqué. Pas de merge main ni Release.

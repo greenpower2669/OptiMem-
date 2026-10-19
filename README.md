@@ -28,3 +28,9 @@ La compilation CI ne constitue pas un test sur le Samsung SM-A576B. Tests matér
 - https://www.samsung.com/us/support/answer/ANS10001953/
 
 Méthode : https://github.com/greenpower2669/FAB-Copilot-forWorkspacegpt
+
+## Preuve de livraison du 19/10/2026
+Compilation finale : https://github.com/greenpower2669/OptiMem-/actions/runs/39244803588 (success).
+APK direct : https://raw.githubusercontent.com/greenpower2669/OptiMem-/feature/optimem-v0.1.0-native-memory/temp/OptiMem-v0.1.0-debug.apk
+SHA-256 : 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312
+Attention : la clé debug est éphémère sur GitHub Actions ; un ancien APK debug de ce projet peut nécessiter une désinstallation avant installation de la nouvelle build, ce qui efface les préférences et journaux OptiMem. Aucune Release ni merge main.

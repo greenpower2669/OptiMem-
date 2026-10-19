@@ -7,12 +7,12 @@
 - [x] Branche dédiée feature/optimem-v0.1.0-native-memory créée.
 
 ## En cours
-- [ ] Code Java natif et cinq mémoires dans un commit cohérent de la branche.
+- [x] Code Java natif et cinq mémoires dans les mêmes commits sur la branche dédiée.
 - [x] CI #39244099636 : compile succeeded, APK signé debug direct poussé dans temp/ (SHA provisoire de la première build consignée dans historique).
 - [x] CI #39244560569 : build correctif de contraste réussi ; APK brut disponible, nouvelle empreinte disponible par .sha256.
-- [ ] Recompiler après correctif STATE-001 (réinitialisation de la mesure « après » sur nouvelle préparation), puis confirmer empreinte finale.
-- [ ] Vérifier temp/OptiMem-v0.1.0-debug.apk brut et SHA-256 via dépôt, donner URL directe.
-- [ ] Si CI échoue, rapporter erreurs dans debughistorical.md et corriger sans toucher main.
+- [x] CI #39244803588 après correctif STATE-001 : succès toutes étapes ; APK temp direct 29159 octets ; SHA-256 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312.
+- [x] APK brut et fichier .sha256 vérifiés dans temp/ sur la branche de travail. URL directe confirmée par API GitHub.
+- [x] Incidents CI initiaux (#39243768981, #39243945614) diagnostiqués et corrigés ; historisés, sans modification main.
 
 ## Validation externe demandée à Fab
 - [ ] Installer sur Samsung SM-A576B Android 16 et vérifier ouverture/interface.

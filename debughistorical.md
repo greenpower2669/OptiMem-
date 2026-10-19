@@ -28,3 +28,10 @@ L'état du code source / la création de branche ne valent pas succès de compil
 ## 2026-10-19 — STATE-001 : risque de comparer une nouvelle référence à une ancienne mesure « après »
 - Revue du code : prefs persistait after et afterTime après lancement d'une nouvelle préparation. UI risquait d'afficher un « après » issu d'une préparation précédente : comparaison trompeuse.
 - Correction : à chaque nouveau PREPARATION_DEBUT, supprimer after, afterTime, afterLow avant d'enregistrer le nouveau baseline. L'utilisateur doit refaire une mesure après. Recompilation et vérification de l'APK attendues.
+
+## 2026-10-19 — BUILD-004 : compilation finale vérifiée
+- Run #39244803588, job 118034026191 : conclusion success ; Java/Gradle/SDK, assembleDebug, contrôle file APK, publication de la copie temp réussis.
+- Branche feature/optimem-v0.1.0-native-memory ; commit CI ayant ajouté le binaire : 25dc96ef577e9809a2add6254e9e7b173c3e4882.
+- APK brut 29159 octets. SHA-256 enregistré : 1edea17dae892aaae019199cbfe384c53e9f555c428487b0b721619c3ec77312. URL : https://raw.githubusercontent.com/greenpower2669/OptiMem-/feature/optimem-v0.1.0-native-memory/temp/OptiMem-v0.1.0-debug.apk
+- Attention : builds debug signées avec clés de développement éphémères ; ne pas garantir mise à jour en place depuis une APK d'un run antérieur. Désinstallation potentiellement nécessaire, entraînant perte des données locales OptiMem. Une signature durable requiert validation et configuration dédiée.
+- Tests matériels Samsung, refus permission / TalkBack / efficacité réelle non exécutés. Ne pas les déclarer conformes avant retour de Fab.
