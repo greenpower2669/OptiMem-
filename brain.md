@@ -32,3 +32,6 @@ https://www.samsung.com/hk_en/support/mobile-devices/what-is-ram-plus-and-how-to
 
 ## Observation d'accessibilité v0.1.0
 Dans le thème Android sombre, les libellés de l'activité récente utilisent blanc/gris clair, y compris dans les dialogues ; la copie du journal est consignée avant la lecture du fichier local.
+
+## Invariant de session de préparation
+Toute nouvelle commande Préparer réinitialise l'ancienne mesure « après » persistante avant de stocker le nouvel « avant », afin de ne jamais afficher un delta entre deux préparations distinctes.

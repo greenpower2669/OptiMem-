@@ -207,7 +207,8 @@ public final class MainActivity extends Activity {
     private void prepareAI() {
         try {
             ActivityManager.MemoryInfo m = snapshot();
-            prefs.edit().putLong("before", m.availMem).putLong("beforeTotal", m.totalMem)
+            prefs.edit().remove("after").remove("afterTime").remove("afterLow")
+                    .putLong("before", m.availMem).putLong("beforeTotal", m.totalMem)
                     .putLong("beforeThreshold", m.threshold).putBoolean("beforeLow", m.lowMemory)
                     .putLong("beforeTime", System.currentTimeMillis()).apply();
             preparedThisSession = true;

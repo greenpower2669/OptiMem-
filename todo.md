@@ -9,7 +9,8 @@
 ## En cours
 - [ ] Code Java natif et cinq mémoires dans un commit cohérent de la branche.
 - [x] CI #39244099636 : compile succeeded, APK signé debug direct poussé dans temp/ (SHA provisoire de la première build consignée dans historique).
-- [ ] Recompiler et vérifier l'APK après le correctif d'accessibilité du dialogue activité ; consigner le nouveau SHA final.
+- [x] CI #39244560569 : build correctif de contraste réussi ; APK brut disponible, nouvelle empreinte disponible par .sha256.
+- [ ] Recompiler après correctif STATE-001 (réinitialisation de la mesure « après » sur nouvelle préparation), puis confirmer empreinte finale.
 - [ ] Vérifier temp/OptiMem-v0.1.0-debug.apk brut et SHA-256 via dépôt, donner URL directe.
 - [ ] Si CI échoue, rapporter erreurs dans debughistorical.md et corriger sans toucher main.
 

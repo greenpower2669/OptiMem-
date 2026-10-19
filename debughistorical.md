@@ -24,3 +24,7 @@ L'état du code source / la création de branche ne valent pas succès de compil
 - La première build v0.1.0 #39244099636 a réussi avec APK brut direct (29 071 octets), mais revue statique : dialogue activité récente créait des labels en noir alors que le thème natif est sombre ; risque de texte non lisible. Pas une panne observée matériellement.
 - Correction : labels du dialogue en blanc/gris clair, journalisation explicite de la copie locale ; déclenchement CI limité aux modifications source/config pour permettre synchronisation documentaire sans reconstruire à chaque édition des mémoires.
 - Une recompilation remplace le binaire temporaire (signature debug de runner éphémère). La nouvelle empreinte devra être relevée après la build ; première empreinte historique = 295a46489f90bd0779ac592989ab25c38f2533b6e3c0497f90b21f5edc7f9a1a.
+
+## 2026-10-19 — STATE-001 : risque de comparer une nouvelle référence à une ancienne mesure « après »
+- Revue du code : prefs persistait after et afterTime après lancement d'une nouvelle préparation. UI risquait d'afficher un « après » issu d'une préparation précédente : comparaison trompeuse.
+- Correction : à chaque nouveau PREPARATION_DEBUT, supprimer after, afterTime, afterLow avant d'enregistrer le nouveau baseline. L'utilisateur doit refaire une mesure après. Recompilation et vérification de l'APK attendues.

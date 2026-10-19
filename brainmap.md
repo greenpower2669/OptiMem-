@@ -24,3 +24,6 @@ Applications IA : queryIntentActivities MAIN+LAUNCHER -> choix local dans Shared
 - Démarrage de Device Care / RAM Plus via composant Samsung non documenté ; seul accès général aux paramètres.
 - Signature AAB Play durable (aucune clé d'importation configurée).
 - Validation matérielle sur Samsung, indépendante de la compilation GitHub.
+
+## Réinitialisation du cycle avant/après
+MainActivity.prepareAI -> SharedPreferences.remove(after, afterTime, afterLow) -> nouveau snapshot before -> measureAfter seulement ensuite. Prévenir les faux deltas après relance de la préparation et après un redémarrage.
