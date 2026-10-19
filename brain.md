@@ -29,3 +29,6 @@ https://developer.android.com/reference/android/app/ActivityManager.MemoryInfo
 https://developer.android.com/reference/android/app/usage/UsageStatsManager
 https://developer.android.com/reference/android/content/Intent#ACTION_APPLICATION_DETAILS_SETTINGS
 https://www.samsung.com/hk_en/support/mobile-devices/what-is-ram-plus-and-how-to-use-it/
+
+## Observation d'accessibilité v0.1.0
+Dans le thème Android sombre, les libellés de l'activité récente utilisent blanc/gris clair, y compris dans les dialogues ; la copie du journal est consignée avant la lecture du fichier local.

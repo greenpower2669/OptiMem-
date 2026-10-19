@@ -336,8 +336,8 @@ public final class MainActivity extends Activity {
             final String[] selected = {null};
             LinearLayout panel = column();
             panel.setPadding(dp(15), dp(6), dp(15), dp(6));
-            TextView note = text(panel, "Activité au premier plan dans les 6 dernières heures, pas une liste de processus exécutés. Consommation RAM de chaque application : non disponible. Sélectionner une application pour accéder à ses réglages.", 16, Color.BLACK);
-            if (list.isEmpty()) text(panel, "Aucune activité disponible dans cette fenêtre.", 17, Color.BLACK);
+            TextView note = text(panel, "Activité au premier plan dans les 6 dernières heures, pas une liste de processus exécutés. Consommation RAM de chaque application : non disponible. Sélectionner une application pour accéder à ses réglages.", 16, MUTED);
+            if (list.isEmpty()) text(panel, "Aucune activité disponible dans cette fenêtre.", 17, WHITE);
             RadioGroup group = new RadioGroup(this);
             panel.addView(group);
             for (Map.Entry<String, Long> item : list) {
@@ -348,7 +348,7 @@ public final class MainActivity extends Activity {
                 rb.setText(appName(item.getKey()) + "\n" + item.getKey() +
                         "\nDernier affichage : " + moment(item.getValue()) +
                         "\nProcessus : non confirmé · RAM : non mesurable");
-                rb.setTextColor(Color.BLACK);
+                rb.setTextColor(WHITE);
                 rb.setTextSize(16);
                 rb.setPadding(dp(5), dp(8), dp(5), dp(8));
                 rb.setMinHeight(dp(67));
@@ -517,6 +517,7 @@ public final class MainActivity extends Activity {
     }
     private void copyJournal() {
         try {
+            journal.append("ACTION copie manuelle du journal vers presse-papiers");
             String log = journal.read();
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             if (clipboard != null) {

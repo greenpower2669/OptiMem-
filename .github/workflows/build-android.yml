@@ -3,8 +3,11 @@ on:
   push:
     branches:
       - 'feature/optimem-v0.1.0-native-memory'
-    paths-ignore:
-      - 'temp/**'
+    paths:
+      - 'app/**'
+      - '*.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/build-android.yml'
   workflow_dispatch:
 permissions:
   contents: write
