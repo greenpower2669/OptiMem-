@@ -53,3 +53,11 @@ Risque confirmé par la chaîne de compilation : chaque APK debug peut être sig
 - Signalement explicite : « Rien n'est lu ^^ pour me mâcher le travail tu sais pour mes yeux ». Les versions 0.1/0.2 n'incluaient aucun moteur TextToSpeech. Les tailles de boutons/contrastes ne répondent donc pas au besoin de lecture.
 - Remède de conception : synthèse vocale Android française native, débit modéré, ouverture automatique contrôlée, lecture des données pertinentes et des fiches choisies, commandes Stop et bascule persistante auto. Pas de double annonce systématique avec TalkBack.
 - Précautions : moteur local Android potentiellement manquant ; signature debug CI éphémère (sauvegarde du carnet v0.2 avant désinstallation), fenêtres de Paramètres Samsung lues par TalkBack Android et non par OptiMem. Tests sur matériel non encore effectués.
+
+## 2026-10-19 — BUILD-VOICE-003 : APK compilé avec succès
+- GitHub Actions run #39301906625 job 118228983503 : conclusion success ; `gradle :app:assembleDebug` success (46s).
+- Contrôle GitHub Actions : binaire `temp/OptiMem-v0.3.0-debug.apk: Android package (APK), with APK Signing Block`; taille 50 019 octets.
+- SHA-256 : `4f1ccc903e13b051f2d69d5d46eddb18d38140cda4d113d4fa8b5ae200409794`, vérifiée avec le fichier `.sha256` sur branche `feature/optimem-v0.3.0-voice-accessible`.
+- Commit binaire `133d3dc26b097c48ea6cc9c50c3b9e2452a38d0b`.
+- URL directe : https://raw.githubusercontent.com/greenpower2669/OptiMem-/feature/optimem-v0.3.0-voice-accessible/temp/OptiMem-v0.3.0-debug.apk
+- Compilation réussie != lecture vocale fonctionnelle sur appareil : TTS français et TalkBack restent à vérifier sur Samsung. Veiller à l'export du carnet v0.2 avant désinstallation forcée à cause de la signature debug éphémère.

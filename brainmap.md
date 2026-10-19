@@ -45,3 +45,8 @@ MainActivity.prepareAI -> SharedPreferences.remove(after, afterTime, afterLow) -
 - `AndroidManifest.xml` : entrée `<queries>` TTS_SERVICE pour visibilité Android 11+, pas de INTERNET, pas de microphone ni accessibilité service.
 - `app/build.gradle` : versionName 0.3.0 code 3 ; `.github/workflows/build-android.yml` : branche `feature/optimem-v0.3.0-voice-accessible`, livraison .apk brut sous temp + sha256 ; ne touche pas main.
 - Limites : TTS dépend d'un moteur/voix installés dans Android, pas d'enregistrement et pas de lecture automatique des pages des paramètres système par OptiMem. Consentement de Fab à tester sur matériel toujours requis.
+
+## Preuve livraison APK v0.3.0
+- Run : https://github.com/greenpower2669/OptiMem-/actions/runs/39301906625, toutes les étapes réussies.
+- Binaire GitHub brut sous `temp/OptiMem-v0.3.0-debug.apk`, 50019 octets, SHA-256 `4f1ccc903e13b051f2d69d5d46eddb18d38140cda4d113d4fa8b5ae200409794`.
+- Dernier commit de l'APK : `133d3dc26b097c48ea6cc9c50c3b9e2452a38d0b` ; les mises à jour documentaires ne retriggerent pas la compilation. Le code v0.3.0 est sur branche dédiée sans merge `main`.

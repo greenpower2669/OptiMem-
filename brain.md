@@ -55,3 +55,6 @@ Le build 0.2.0 passe sur GitHub Actions (#39257212200). Le suivi local, les note
 - Annoncer état RAM à l'ouverture sans faire parler l'actualisation 4 secondes ; dire conseils et résultat de comparaison lors de l'action. En carnet : annoncer résumé, lire jusqu'à 10 fiches puis proposer lecture individuelle sans discours interminable, lire les notes personnelles et guider les restrictions.
 - Aucune affirmation de privilèges Samsung et aucune exécution Android automatique. Autres applications/Paramètres Samsung restent hors du contrôle de la voix d'OptiMem : utiliser TalkBack pour lire les écrans système.
 - Si le moteur TTS Android ne possède pas les voix françaises, la lecture locale peut être indisponible ; pas de promesse d'audio tant qu'installée et testée sur SM-A576B.
+
+## Vérification CI OPTIMEM-MISSION-003
+La v0.3.0 compile avec SDK 36 / Java 17 via GitHub Actions #39301906625 ; TTS système français demandé et aucune autorisation réseau ajoutée. Après installation, il faudra valider présence de la voix française, lecture initiale, action manuelle, arrêt, auto désactivé, reprise, notes et détection TalkBack. Compilation seule ne vérifie pas la production audible.

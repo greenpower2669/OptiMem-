@@ -43,7 +43,7 @@
 - [x] Identifier la panne fonctionnelle : aucune intégration de synthèse vocale Android antérieure.
 - [x] Créer la couche native SpeechGuide, FR, ralentissement, stop et annonce auto avec protection TalkBack ; brancher MainActivity et WatchlistActivity.
 - [x] Préserver code, données et méthodes antérieurs, nouvelle branche et noms d'APK.
-- [ ] Compiler GitHub Actions v0.3.0 et vérifier APK SHA-256 avant livraison.
+- [x] Compilation GitHub Actions v0.3.0 réussie (#39301906625, job 118228983503, 50 019 octets). APK brut dans temp/ et checksum SHA-256 `4f1ccc903e13b051f2d69d5d46eddb18d38140cda4d113d4fa8b5ae200409794`, disponibilité vérifiée par GitHub API.
 - [ ] Essayer sur Samsung : voix française installée, lecture d'accueil, lire un bilan, arrêter, désactiver auto, lecture d'une fiche puis noter/valider, retour réglages ; vérifier TalkBack pas de doubles lectures et aucune annonce toutes les 4 secondes.
 - [ ] Avant désinstallation nécessaire pour nouvelle signature CI, exporter carnet v0.2 depuis son écran. Un import restaure les fiches, pas forcément les mesures ni journaux.
 - [ ] Aucune fusion main ni Release sans Fab.
